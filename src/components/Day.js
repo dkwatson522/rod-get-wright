@@ -1,10 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Exercise from './Exercise';
 // import { v4 as uuidv4 } from 'uuid';
 import { DayContext } from './App';
 
 export default function Day(props) {
   const { handleDaySelect, handleDayClear } = useContext(DayContext)
+  const [showDayConfirmClear, setShowDayConfirmClear] = useState(false)
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowDayConfirmClear(false)
+    }, 4000)
+    return () => clearTimeout(timer);
+  },[showDayConfirmClear]);
 
   const {
     handleModalOpen,
@@ -42,16 +50,31 @@ export default function Day(props) {
           })}
         </ul>
         <div className="flex justify-center relative z-0">
+          <form>
+            <div
+              className="overflow-hidden"
+              onClick={() => setShowDayConfirmClear(true)}
+            >
+              <div className={`relative transform transition duration-500 ease-in-out ${showDayConfirmClear ? '-translate-x-full' : ''}`}  >
+                <button
+                  type="button"
+                  className=' mx-2 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-sm text-gray-800 bg-yellow-600 hover:bg-yellow-700'
+                >
+                  Clear {name}
+                </button>
+                <button
+                  type="button"
+                  className="absolute px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-sm text-red-300 bg-red-600"
+                  onClick = {() => handleDayClear(id)}
+                >
+                  Confirm
+                </button>
+              </div>
+            </div>
+          </form>
           <button
             type="button"
-            className="relative inline-flex items-center mx-2 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-sm text-gray-800 bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
-            onClick = {() => handleDayClear(id)}
-          >
-            Clear {name}
-          </button>
-          <button
-            type="button"
-            className="relative inline-flex items-center mx-2 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-sm text-gray-800 bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+            className="mx-2 px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-sm text-gray-800 bg-yellow-600 hover:bg-yellow-700"
             onClick = {() => handleDaySelect(id)}
           >
             Edit {name}

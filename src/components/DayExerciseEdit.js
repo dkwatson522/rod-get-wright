@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-regular-svg-icons'
+import { faTrashRestore } from '@fortawesome/free-solid-svg-icons'
 
 const DayExerciseEdit = (props) => {
   const {
@@ -9,19 +10,20 @@ const DayExerciseEdit = (props) => {
     handleExerciseDelete
   } = props
 
+  const [showExerciseConfirmClear, setShowExerciseConfirmClear] = useState(false)
+
   const handleChange = (changes) => {
     handleExerciseChange(exercise.id, { ...exercise, ...changes })
   }
 
-  // const doubleConfirmExerciseInner = document.querySelector('.double-confirm-exercise-inner')
-  //
-  // const handleConfirmExerciseClear = () => {
-  //   doubleConfirmExerciseInner.classList.add('-translate-x-full')
-  //   setTimeout(() => {
-  //     doubleConfirmExerciseInner.classList.remove('-translate-x-full')
-  //     // console.log('Should reset the button')
-  //   }, 3000);
-  // }
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowExerciseConfirmClear(false)
+    }, 4000)
+    return () => clearTimeout(timer);
+  },[showExerciseConfirmClear]);
+
+
 
   return(
     <div className="grid grid-cols-6 divide-x-4">
@@ -53,42 +55,35 @@ const DayExerciseEdit = (props) => {
           />
         </div>
       </div>
-      {/*<form>
-        <div
-          className="overflow-hidden"
-          onClick={handleConfirmExerciseClear}
-        >
-          <div className="double-confirm-exercise-inner relative transform transition duration-500 ease-in-out">
-            <button
-              type="button"
-              className="p-4"
-            >
-              <FontAwesomeIcon
-                className="h-auto w-auto text-red-600"
-                aria-hidden="true"
-                icon={faTrashAlt}
-              />
-            </button>
-            <button
-              type="button"
-              className="absolute p-4 text-sm font-medium rounded-sm text-red-300 bg-red-600"
-              onClick={() => handleExerciseDelete(exercise.id)}
-            >
-              Confirm?
-            </button>
-          </div>
-        </div>
-      </form>*/}
-      <button
-        className="flex items-center justify-center mx-1"
-        onClick={() => handleExerciseDelete(exercise.id)}
+
+      <div
+        className="overflow-hidden my-auto mx-auto"
+        onClick={() => setShowExerciseConfirmClear(true)}
       >
-        <FontAwesomeIcon
-          className="h-auto w-auto text-red-600"
-          aria-hidden="true"
-          icon={faTrashAlt}
-        />
-      </button>
+        <div className={`relative transform transition duration-500 ease-in-out ${showExerciseConfirmClear ? '-translate-x-full' : ''}`}>
+          <button
+            type="button"
+            className="px-4 py-2 border border-transparent text-sm font-medium rounded-sm"
+          >
+            <FontAwesomeIcon
+              className="h-auto w-auto text-red-600"
+              aria-hidden="true"
+              icon={faTrashAlt}
+            />
+          </button>
+          <button
+            type="button"
+            className={`absolute px-4 py-2 border border-transparent text-sm font-medium rounded-full ${showExerciseConfirmClear ? 'animate-bounce' : ''}`}
+            onClick={() => handleExerciseDelete(exercise.id)}
+          >
+            <FontAwesomeIcon
+              className="h-auto w-auto text-red-600"
+              aria-hidden="true"
+              icon={faTrashRestore}
+            />
+          </button>
+        </div>
+      </div>
     </div>
   )
 };

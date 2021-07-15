@@ -12,7 +12,7 @@ export default function Exercise(props) {
     <>
       <li
         key={id}
-        className="grid grid-cols-3 relative bg-gray-100 py-2 px-4 my-2 rounded-sm"
+        className="grid grid-cols-3 relative bg-gray-100 py-2 px-4 my-2 rounded-md"
       >
         <div className="col-span-1">
           <div className="block focus:outline-none">
