@@ -77,7 +77,7 @@ const DayExerciseEdit = (props) => {
             onClick={() => handleExerciseDelete(exercise.id)}
           >
             <FontAwesomeIcon
-              className="h-auto w-auto text-red-600"
+              className="h-auto w-full text-red-600"
               aria-hidden="true"
               icon={faTrashRestore}
             />

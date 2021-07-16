@@ -31,7 +31,7 @@ export default function Schedule( {handleModalOpen, handleDayChange, workouts, s
               </button>
               <button
                 type="button"
-                className="absolute px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-sm text-red-300 bg-red-600"
+                className="absolute px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-sm text-red-300 bg-red-600 w-full h-full"
                 onClick={handleScheduleClear}
               >
                 Confirm?
